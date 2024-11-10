@@ -4,7 +4,7 @@
 #let font = (
   main: "IBM Plex Serif",
   mono: "IBM Plex Mono",
-  cjk: "Noto Serif SC",
+  cjk: "Noto Serif CJK SC",
 )
 #let cjk-markers = regex("[“”‘’．，。、？！：；（）｛｝［］〔〕〖〗《》〈〉「」【】『』─—＿·…\u{30FC}]+")
 #let 字号 = (

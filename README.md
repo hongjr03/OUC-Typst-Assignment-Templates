@@ -10,10 +10,11 @@
 
 - 安装 typst-cli 或使用官方的在线编辑器。（[参考此页](https://typst-doc-cn.github.io/tutorial/introduction.html)，只需花费几分钟）
 - 下载模板文件 `template.typ`，将其放置在你的实验报告文件夹中。
-    > [!TIP]
-    > 建议对于一门课程的实验报告，只使用一个文件夹，将模板放在根目录、实验报告放在子目录中以便管理。
 - 在实验报告的开头使用 `#import "../template.typ": *` 导入模板。
 - 见各个实验报告的 `example.typ` 文件以了解如何填入需要的参数。
+
+> [!TIP]
+> 建议对于一门课程的实验报告，只使用一个文件夹，将模板放在根目录、实验报告放在子目录中以便管理。
 
 > [!NOTE]  
 > 由于作者比较喜欢 [Noto Serif CJK SC](https://github.com/notofonts/noto-cjk) 和 [IBM Plex 系列](https://github.com/IBM/plex) 字体，对于大部分模板，这两个字体是默认的。如果你没有安装这两个字体，可以在模板中将字体设置为你喜欢的字体（使用 `typst fonts` 查看当前可用字体）或者通过超链接下载这些字体。

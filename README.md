@@ -23,13 +23,13 @@
 
 `template.typ` 文件和 `example.pdf` 文件均位于各个文件夹中。
 
-- 数据库系统：[template.typ](数据库系统/template.typ) | [example.pdf](数据库系统/example.pdf)
+- 数据库系统：[template.typ](数据库系统/template.typ) | [PDF 示例](数据库系统/example/main.pdf)
 
     | 预览 |
     |--|
     | ![example](assets/数据库系统.png) |
 
-- 软件测试技术：[template.typ](软件测试技术/template.typ) | [example.pdf](软件测试技术/example.pdf) | [其余页面预览](assets/软件测试技术)
+- 软件测试技术：[template.typ](软件测试技术/template.typ) | [PDF 示例](软件测试技术/example/main.pdf) | [其余页面预览](assets/软件测试技术)
 
     | 封面 | 目录 | 正文 |
     |--|--|--|

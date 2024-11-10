@@ -1,10 +1,10 @@
-# 非官方 OUC 计算机实验报告 typst 模板
+# 非官方 OUC 计算机实验报告 Typst 模板
 
-**本仓库非官方，使用者需自行承担风险。** 本仓库提供了一些自制的适用于中国海洋大学计算机学院实验报告的 typst 模板。
+**本仓库非官方，使用者需自行承担风险。** 本仓库提供了一些自制的适用于中国海洋大学计算机学院实验报告的 Typst 模板。
 
 > [!IMPORTANT]  
-> 对于不熟悉 typst 的用户，建议通过 [typst 中文社区导航](https://typst-doc-cn.github.io/guide/) 和 [小蓝书 Web 版](https://typst-doc-cn.github.io/tutorial/) 了解 typst 的基本使用方法。
-> 一言以蔽之，使用 typst，你可以像写 Markdown 一样写 LaTeX 风格的文档。
+> 对于不熟悉 Typst 的用户，建议通过 [typst 中文社区导航](https://typst-doc-cn.github.io/guide/) 和 [小蓝书 Web 版](https://typst-doc-cn.github.io/tutorial/) 了解 Typst 的基本使用方法。
+> 一言以蔽之，使用 Typst，你可以像写 Markdown 一样写 LaTeX 风格的文档。
 
 ## 使用方法
 

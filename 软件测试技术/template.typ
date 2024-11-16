@@ -3,7 +3,10 @@
 
 #let font = (main: "IBM Plex Serif", mono: "IBM Plex Mono", cjk: "Noto Serif CJK SC")
 #let cjk-markers = regex("[“”‘’．，。、？！：；（）｛｝［］〔〕〖〗《》〈〉「」【】『』─—＿·…\u{30FC}]+")
-
+#let fakepar = context {
+  box()
+  v(-measure(block() + block()).height)
+}
 // 标题，(小组成员), (结对小组成员), 日期
 #let assign_cover(title, members, pairMembers, date) = {
   align(
@@ -107,33 +110,34 @@
   show raw: set text(font: (font.mono, font.cjk))
   // Display inline code in a small box
   // that retains the correct baseline.
-  show raw.where(block: false): box.with(fill: luma(240), inset: (x: 3pt, y: 0pt), outset: (y: 3pt), radius: 2pt)
-
-  // Display block code in a larger block
-  // with more padding.
-  // and with line numbers.
-  // Thank you @Andrew15-5 for the idea and the code!
-  // https://github.com/typst/typst/issues/344#issuecomment-2041231063
-  let style-number(number) = text(gray)[#number]
+  show raw.where(block: false): box.with(fill: luma(240), inset: (x: 4pt, y: 0pt), outset: (y: 4pt), radius: 4pt)
   show raw.where(block: true): it => {
     set par(justify: false)
     block(
       fill: luma(240),
-      inset: 5pt,
-      outset: 5pt,
-      radius: 4pt,
-      width: 100%,
-      it,
-    )
+      inset: 8pt,
+      radius: 8pt,
+    )[
+      #place(top + right, dy: -4pt, dx: 4pt)[#text(fill: gray, style: "italic", size: 8pt, it.lang)]
+      #grid(
+        columns: (auto, 1fr),
+        align: (x, y) => if x == 0 {right} else {left},
+        column-gutter: 0.5em,
+        // stroke: (x,y) => if x==0 {( right: (paint:gray, dash:"densely-dotted") )},
+        inset: 0.25em,
+        ..it.lines.map((line) => (text(fill:gray, str(line.number)), line.body)).flatten()
+      )
+    ]
   }
+
 
   show link: it => {
     set text(fill: blue)
     underline(it)
   }
 
-  set list(indent: 6pt)
-  set enum(indent: 6pt)
+  set list(indent: 2em)
+  set enum(indent: 2em)
   set enum(
     numbering: numbly(
       "{1:1}.",
@@ -141,6 +145,16 @@
     ),
     full: true,
   )
+  show list: it => {
+    set list(indent: 0.5em)
+    set enum(indent: 0.5em)
+    it
+  }
+  show enum: it => {
+    set enum(indent: 0.5em)
+    set list(indent: 0.5em)
+    it
+  }
 
   assign_cover(title, members, pairMembers, date)
   assign_outline(title)
@@ -173,10 +187,7 @@
   }
   set text(size: 12pt)
   set par(first-line-indent: 2em)
-  let fakepar = context {
-    box()
-    v(-measure(block() + block()).height)
-  }
+
   show math.equation.where(block: true): it => it + fakepar // 公式后缩进
   show heading: it => it + fakepar // 标题后缩进
   show figure: it => it + fakepar // 图表后缩进
@@ -229,7 +240,7 @@
     figure(
 
       [
-        #block(breakable: false, sticky: true)[
+        #block(breakable: false)[
           #set text(number-width: "proportional")
           #show table.cell: it => {
             if it.x == 0 or it.x == 2 {
@@ -239,7 +250,7 @@
             }
           }
           #table(
-            columns: (1fr, 2fr, 1fr, 2fr),
+            columns: (7em, 2fr, 7em, 2fr),
             [实验名称], [#title], [实验编号], [#id],
             [开发人员], [#developer], [模块名称], [#module_name],
             [用例作者], [#use_case_author], [参考信息], [#reference],
@@ -260,7 +271,7 @@
             }
           }
           #table(
-            columns: (1fr, ..columns_width),
+            columns: (7em, ..columns_width),
             [用例编号], [
               #if is_operation == true {
                 "操作"

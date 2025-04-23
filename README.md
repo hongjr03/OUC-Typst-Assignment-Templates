@@ -29,7 +29,7 @@
     |--|
     | ![example](assets/数据库系统.png) |
 
-- 软件测试技术：[template.typ](软件测试技术/template.typ) | [PDF 示例](软件测试技术/example/main.pdf) | [其余页面预览](assets/软件测试技术)
+- 软件测试技术 / 编译原理：[template.typ](软件测试技术/template.typ) | [PDF 示例](软件测试技术/example/main.pdf) | [其余页面预览](assets/软件测试技术)
 
     | 封面 | 目录 | 正文 |
     |--|--|--|

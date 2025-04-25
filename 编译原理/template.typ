@@ -8,30 +8,40 @@
   v(-measure(block() + block()).height)
 }
 // 标题，(小组成员), (结对小组成员), 日期
-#let assign_cover(title, members, pairMembers, date) = {
+#let assign_cover(title, sub_titles ,members, pair_members, date) = {
   align(
     center,
-    text(size: 36pt, weight: "bold")[
-      #v(4em)
-      软件测试技术实验报告
+    text(size: 40pt, weight: "bold")[
+      #v(3em)
+      编译原理实验报告
     ],
   )
-
   align(
     left,
-    text(size: 20pt, weight: "medium")[
-      #v(2em)
-      #title
-    ],
+    grid(
+      columns: 2,
+      align(center, text(size: 14pt)[#box()]),
+      align(
+        left,
+        (
+          for sub in sub_titles {
+            text(size: 26pt)[
+              #sub.name: #sub.content
+
+            ]
+          }
+        ),
+      ),
+    ),
   )
   v(1fr)
   align(
-    center,
+    right,
     grid(
       columns: 2,
-      align(right, text(size: 14pt)[小组成员：#box()]),
+      align(center, text(size: 14pt)[小组成员: #box()]),
       align(
-        left,
+        right,
         (
           for member in members {
             text(size: 14pt)[
@@ -44,16 +54,16 @@
     ),
   )
   linebreak()
-  if pairMembers == none { } else {
+  if pair_members == none { } else {
     align(
-      center,
+      right,
       grid(
         columns: 2,
-        align(right, text(size: 14pt)[结对小组成员：#box()]),
+        align(right, text(size: 14pt)[小组成员：#box()]),
         align(
           left,
           (
-            for member in pairMembers {
+            for member in pair_members {
               text(size: 14pt)[
                 #member.name（学号：#member.id）
 
@@ -66,7 +76,7 @@
   }
   linebreak()
   align(
-    center,
+    right,
     text(size: 14pt)[
       完成日期：#date.display("[year]年[month padding:none]月[day padding:none]日")
     ],
@@ -75,7 +85,7 @@
   pagebreak(weak: true)
 }
 
-#let assign_outline(title) = {
+#let assign_outline() = {
   set page(paper: "a4")
 
   show outline.entry.where(level: 1): it => {
@@ -85,11 +95,11 @@
 
   align(center, text(28pt, weight: "bold")[实验目录])
   v(15pt)
-
-  outline(title: none, depth: 1, indent: auto)
+  
+  outline(title: none, depth:1, indent: auto)
 }
 
-#let assign_class(title, author, members, pairMembers, date, body) = {
+#let assign_class(title, sub_title ,author, members, pair_members, date, body) = {
   set page(paper: "a4", margin: auto)
   set text(font: (font.main, font.cjk), lang: "zh", region: "cn")
   show cjk-markers: set text(font: font.cjk)
@@ -156,8 +166,8 @@
     it
   }
 
-  assign_cover(title, members, pairMembers, date)
-  assign_outline(title)
+  assign_cover(title, sub_title, members, pair_members, date)
+  assign_outline()
 
   set page(
     paper: "a4",
@@ -171,18 +181,9 @@
     ],
   )
   counter(page).update(1)
-  // align(center, text(size: 21pt, weight: "bold", title))
-  [
-    #show heading: it => {
-      set align(center)
-      set text(size: 21pt, weight: "bold")
-      it
-    }
-    #heading(numbering: none, depth: 1, title)
-  ]
   show heading: set block(spacing: 1.2em)
   show heading.where(depth: 1): it => {
-    show h.where(amount: 0.3em): none
+    show h.where(amount: 0.2em): none
     it
   }
   set text(size: 12pt)
@@ -198,6 +199,18 @@
   body
 }
 
+#let my_heading(title) = {
+  pagebreak()
+  counter(heading).update(0)
+  show heading: it => {
+    set align(center)
+    set text(size: 21pt, weight: "bold")
+    it
+  }  
+  heading(numbering: none, depth: 1, title)
+}
+
+
 #let list(body) = {
   let fakepar = context {
     box()
@@ -210,80 +223,25 @@
 }
 
 
-// 实验名称，实验编号，开发者，模块名称，用例作者，参考信息，测试类型，设计日期，测试方法，测试日期，测试对象，前置条件
-#let test_case_table(
-  title: none,
-  id: none,
-  developer: none,
-  module_name: none,
-  use_case_author: none,
-  reference: none,
-  test_type: none,
-  design_date: none,
-  test_method: none,
-  test_date: none,
-  test_object: none,
-  precondition: none,
-  columns_width: (1.2fr, 1.2fr, 1.2fr, 1.4fr),
-  is_operation: none,
-  ..body,
-) = (
-  context {
-    set text(size: 10.5pt)
-    set table(
-      align: center + horizon,
-      // rows: 2em,
-      inset: 6pt,
-    )
-    show figure: set block(breakable: true)
 
-    figure(
+#let problem_counter = counter("problem")
+#let prob-solution_counter = counter("prob-solution")
+#let prob_block(body) = {
+  v(-0.5em)
+  block(fill: rgb(230, 255, 255), width: 100%, inset: 8pt, radius: 4pt, stroke: rgb(0, 191, 255), body)
+}
 
-      [
-        #block(breakable: false)[
-          #set text(number-width: "proportional")
-          #show table.cell: it => {
-            if it.x == 0 or it.x == 2 {
-              strong(it)
-            } else {
-              it
-            }
-          }
-          #table(
-            columns: (7em, 2fr, 7em, 2fr),
-            [实验名称], [#title], [实验编号], [#id],
-            [开发人员], [#developer], [模块名称], [#module_name],
-            [用例作者], [#use_case_author], [参考信息], [#reference],
-            [测试类型], [#test_type], [设计日期], [#design_date.display("[year]年[month]月[day]日")],
-            [测试方法], [#test_method], [测试日期], [#test_date.display("[year]年[month]月[day]日")],
-            [测试对象], table.cell(colspan: 3)[#test_object],
-            [前置条件], table.cell(colspan: 3)[#precondition],
-
-          )]
-        #v(0em, weak: true)
-        #[
-          #set text(number-width: "proportional", spacing: 150%)
-          #show table.cell: it => {
-            if it.y == 0 {
-              strong(it)
-            } else {
-              it
-            }
-          }
-          #table(
-            columns: (7em, ..columns_width),
-            [用例编号], [
-              #if is_operation == true {
-                "操作"
-              } else {
-                "输入数据"
-              }
-            ], [预期结果], [实际结果], [备注],
-            ..body,
-          )]
-      ],
-      caption: test_method + "测试用例表",
-    )
-
+#let cprob(text, body) = {
+  [
+    #set heading(numbering: none)
+    #problem_counter.step()
+    === *问题 #context problem_counter.display("1")*: #text
+  ]
+  v(0.5em)
+  if body == [] {
+    v(0.5em)
+  } else {
+    prob_block(body)
   }
-)
+}
+
